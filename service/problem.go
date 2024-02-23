@@ -28,6 +28,7 @@ func GetProblemList(c *gin.Context) {
 		log.Println("GetProblemList Page strconv Error:", err)
 		return
 	}
+
 	page = (page - 1) * size
 	var count int64
 	keyword := c.Query("keyword")
@@ -39,11 +40,13 @@ func GetProblemList(c *gin.Context) {
 		log.Println("GetProblemList Count Error:", err)
 		return
 	}
+
 	err = models.GetProblemList(keyword, categoryIdentity).Offset(page).Limit(size).Find(&list).Error
 	if err != nil {
 		log.Println("Get Problem List Error:", err)
 		return
 	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"code": 200,
 		"data": map[string]interface{}{
@@ -68,6 +71,7 @@ func GetProblemDetail(c *gin.Context) {
 		})
 		return
 	}
+
 	data := new(models.ProblemBasic)
 	err := models.DB.Where("identity = ?", identity).
 		Preload("ProblemCategories").Preload("ProblemCategories.CategoryBasic").
@@ -80,10 +84,12 @@ func GetProblemDetail(c *gin.Context) {
 			})
 			return
 		}
+
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
 			"msg":  "Get ProblemDetail Error:" + err.Error(),
 		})
+
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{

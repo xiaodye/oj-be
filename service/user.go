@@ -28,6 +28,7 @@ func GetUserDetail(c *gin.Context) {
 		})
 		return
 	}
+
 	data := new(models.UserBasic)
 	err := models.DB.Omit("password").Where("identity = ? ", identity).Find(&data).Error
 	if err != nil {

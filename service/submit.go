@@ -36,6 +36,7 @@ func GetSubmitList(c *gin.Context) {
 		log.Println("GetProblemList Page strconv Error:", err)
 		return
 	}
+
 	page = (page - 1) * size
 
 	var count int64
